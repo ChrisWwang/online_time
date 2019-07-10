@@ -14,7 +14,6 @@
         </repository>
     </repositories>
 
-
     <properties>
         <project.build.souorceEncoding>UTF-8</project.build.souorceEncoding>
         <scala.version>2.11.8</scala.version>
@@ -251,8 +250,7 @@
     <build>
         <!--项目源码目录，当构建项目的时候，构建系统会编译目录里的源码。该路径是相对于pom.xml的相对路径-->
         <sourceDirectory>src/main/scala</sourceDirectory>
-        <!--项目单元测试使用的源码目录，当测试项目的时候，构建系统会编译目录里的源码，该路径是相对于pom.xml的相对路径-->
-        <testSourceDirectory>src/test/java</testSourceDirectory>
+
 
         <!--使用的插件列表-->
         <plugins>
