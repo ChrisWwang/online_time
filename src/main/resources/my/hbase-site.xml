@@ -29,27 +29,12 @@
  　　　　<name>hbase.cluster.distributed</name> 
  　　　　<value>true</value> 
  　　</property> 
- 
-   <!-- 0.98后的新变动，之前版本没有.port,默认端口为60000 -->
-	<property>
-		<name>hbase.master.port</name>
-		<value>16000</value>
-	</property>
-
-	<property>
-		<name>hbase.zookeeper.quorum</name>
-	      <value>hadoop102</value>
-	</property>
-
-	<property>   
-		<name>hbase.zookeeper.property.dataDir</name>
-	    <value>/opt/module/zookeeper-3.4.10/zkData</value>
-	</property>
-
-	<property>
-        <name>hbase.master.maxclockskew</name>
-        <value>180000</value>
-        <description>Time difference of regionserver from master</description>
- </property>
-
+ 　　<property> 
+ 　　　　<name>hbase.zookeeper.quorum</name> 
+ 　　　　<value>hadoop102</value> 
+ 　　</property>
+     <property>
+         <name>hbase.mapreduce.bulkload.max.hfiles.perRegion.perFamily</name>
+         <value>3200</value>
+     </property>
 </configuration>

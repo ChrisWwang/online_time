@@ -3,7 +3,7 @@ package dongfeng.query
 import java.util.Properties
 
 import com.mongodb.spark.MongoSpark
-import dongfeng.code.tools.spark.SparkEngine
+import dongfeng.code.tools.spark.{GlobalConfigUtils, SparkEngine}
 import dongfeng.query.sql.VehicleSQL
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.{DataFrame, SaveMode}
@@ -14,14 +14,29 @@ object QueryController {
     Logger.getLogger("org.apache.spark").setLevel(Level.WARN)
 
     val sparkConf = SparkEngine.sparkConf()
-      .set("spark.mongodb.input.uri", "mongodb://test:test@47.99.187.146/och_test.driver_online_record")
 
     val sparkSession = SparkEngine.session(sparkConf)
+
     import sparkSession.sqlContext.implicits._
+
+//    var alliance_business = sparkSession
+//      .read
+//      .format(GlobalConfigUtils.customHbasePath)
+//      .options(
+//        Map(
+//          GlobalConfigUtils.sparksql_table_schema -> GlobalConfigUtils.alliance_business_SparkSQLSchema,
+//          GlobalConfigUtils.hbase_table_name -> GlobalConfigUtils.table_alliance_business,
+//          GlobalConfigUtils.hbase_table_schema -> GlobalConfigUtils.alliance_business_HbaseSchema
+//        )).load()
+//    alliance_business.createOrReplaceTempView("alliance_business")
+//
+//    alliance_business.show()
 
 
     val df: DataFrame = MongoSpark.load(sparkSession)
     df.createOrReplaceTempView("driver_online_record")
+
+    df.show()
 
 
     val driver_info: DataFrame = sparkSession.read.format("jdbc")
@@ -40,7 +55,7 @@ object QueryController {
       .option("url", "jdbc:mysql://47.111.68.2:3306/och_test?useUnicode=true&characterEncoding=utf8")
       .option("user", "root")
       .option("password", "123456")
-      .option("dbtable", "order_info_201906")
+      .option("dbtable", "order_info_201907")
       .option("driver", "com.mysql.jdbc.Driver")
       .load()
     //创建车辆信息表
@@ -83,11 +98,11 @@ object QueryController {
     //    df1.write.mode(SaveMode.Append).jdbc(url, "driver_online_time", connectionProperties)
 
 
-    val url = "jdbc:mysql://47.111.68.2:3306/och_test?useUnicode=true&characterEncoding=utf8"
-    val connectionProperties = new Properties()
-    connectionProperties.setProperty("user", "root"); // 设置用户名
-    connectionProperties.setProperty("password", "123456"); // 设置密码
-    frame.write.mode(SaveMode.Append).jdbc(url, "driver_online_time_copy", connectionProperties)
+//    val url = "jdbc:mysql://47.111.68.2:3306/och_test?useUnicode=true&characterEncoding=utf8"
+//    val connectionProperties = new Properties()
+//    connectionProperties.setProperty("user", "root"); // 设置用户名
+//    connectionProperties.setProperty("password", "123456"); // 设置密码
+//    frame.write.mode(SaveMode.Append).jdbc(url, "driver_online_time_copy", connectionProperties)
 
 
     sparkSession.stop()

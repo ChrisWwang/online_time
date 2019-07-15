@@ -151,43 +151,44 @@
     <!--开发环境-->
 
     <profiles>
+
         <!--生产环境-->
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>env</name>
-                    <value>Env</value>
-                </property>
-            </activation>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources/dev</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
+        <!--<profile>-->
+            <!--<id>dev</id>-->
+            <!--<activation>-->
+                <!--<activeByDefault>true</activeByDefault>-->
+                <!--<property>-->
+                    <!--<name>env</name>-->
+                    <!--<value>Env</value>-->
+                <!--</property>-->
+            <!--</activation>-->
+            <!--<build>-->
+                <!--<resources>-->
+                    <!--<resource>-->
+                        <!--<directory>src/main/resources/dev</directory>-->
+                    <!--</resource>-->
+                <!--</resources>-->
+            <!--</build>-->
+        <!--</profile>-->
 
         <!--开发环境-->
-        <profile>
-            <id>pro</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>pro</name>
-                    <value>Pro</value>
-                </property>
-            </activation>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources/pro</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
+        <!--<profile>-->
+            <!--<id>pro</id>-->
+            <!--<activation>-->
+                <!--<activeByDefault>true</activeByDefault>-->
+                <!--<property>-->
+                    <!--<name>pro</name>-->
+                    <!--<value>Pro</value>-->
+                <!--</property>-->
+            <!--</activation>-->
+            <!--<build>-->
+                <!--<resources>-->
+                    <!--<resource>-->
+                        <!--<directory>src/main/resources/pro</directory>-->
+                    <!--</resource>-->
+                <!--</resources>-->
+            <!--</build>-->
+        <!--</profile>-->
 
         <!--生产环境-->
         <profile>
@@ -208,23 +209,23 @@
             </build>
         </profile>
         <!--my-->
-        <profile>
-            <id>my</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>my</name>
-                    <value>my</value>
-                </property>
-            </activation>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources/my</directory>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
+        <!--<profile>-->
+            <!--<id>my</id>-->
+            <!--<activation>-->
+                <!--<activeByDefault>true</activeByDefault>-->
+                <!--<property>-->
+                    <!--<name>my</name>-->
+                    <!--<value>my</value>-->
+                <!--</property>-->
+            <!--</activation>-->
+            <!--<build>-->
+                <!--<resources>-->
+                    <!--<resource>-->
+                        <!--<directory>src/main/resources/my</directory>-->
+                    <!--</resource>-->
+                <!--</resources>-->
+            <!--</build>-->
+        <!--</profile>-->
         <!--my测试-->
         <profile>
             <id>mytest</id>

@@ -20,16 +20,8 @@ object SparkEngine {
       .set("spark.buffer.pageSize" , GlobalConfigUtils.sparkBuferSize)
       .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
       .set("spark.scheduler.mode", "FAIR")
-      .set("cluster.name" , GlobalConfigUtils.clusterName)
-      .set("es.index.auto.create" , GlobalConfigUtils.autoCreateIndex)
-      .set("es.nodes" , GlobalConfigUtils.esNodes)
-      .set("es.port" , GlobalConfigUtils.esPort)
-      .set("es.index.reads.missing.as.empty" , GlobalConfigUtils.isMissing)
-      .set("es.nodes.discovery" , GlobalConfigUtils.esNodesDiscovery)
-      .set("es.nodes.wan.only" , GlobalConfigUtils.wanOnly)
-      .set("es.http.timeout" , GlobalConfigUtils.esTimeout)
-      .set("spark.mongodb.input.uri","mongodb://127.0.0.1/test.user")
-      .setMaster("local[6]")
+      .set("spark.mongodb.input.uri", GlobalConfigUtils.mongodburi)
+//      .setMaster("local[6]")
       .setAppName("query")
 
     sparkConf

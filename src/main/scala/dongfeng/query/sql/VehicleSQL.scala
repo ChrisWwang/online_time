@@ -237,7 +237,7 @@ object VehicleSQL {
       |order_info_join_driver_info
       |where driver_id is not null
       |group by driver_id,driver_name,driver_mobile,driver_type,city_code,city_name,driver_company_id,driver_company_name
-      |limit 10
+      |limit 5
     """.stripMargin
 
 
