@@ -40,10 +40,26 @@ class GlobalConfigUtils {
   def vehicleSparkSQLSchema = conf.getString("vehicleData.sparksql_table_schema")
   def vehicleHbaseSchema = conf.getString("vehicleData.hbase_table_schema")
   def tableVehicleData = conf.getString("table.name.vehicle")
-  //Hbase加载列 - 司官方数据
+
+  //########################司机在线时长统计（start）################################
+//  //Hbase加载列 - 司管表信息
+//  def optAlliance_business = conf.getString("table.name._alliance_business")
+//  def allianceBusiness_hbase_schema = conf.getString("alliance_business.hbase_table_schema")
+//  def allianceBusiness_sparksql_schema = conf.getString("alliance_business.sparksql_table_schema")
+  //Hbase加载列 - 司管信息数据
   def alliance_business_SparkSQLSchema = conf.getString("alliance_business.sparksql_table_schema")
   def alliance_business_HbaseSchema = conf.getString("alliance_business.hbase_table_schema")
-  def table_alliance_business = conf.getString("table.name._alliance_business")
+  def table_alliance_business = conf.getString("table.name.alliance_business")
+  //Hbase加载列 - 订单信息数据
+  def orderInfo_SparkSQLSchma = conf.getString("order_info.sparksql_table_schema")
+  def orderInfo_HbaseSchema = conf.getString("order_info.hbase_table_schema")
+  def table_order_info = conf.getString("table.name.order_info")
+  //Hbase加载列 - 司机信息数据
+  def driverInfo_SparkSQLSchma = conf.getString("driver_info.sparksql_table_schema")
+  def driverInfo_HbaseSchema = conf.getString("driver_info.hbase_table_schema")
+  def table_driver_info = conf.getString("table.name.driver_info")
+  //########################司机在线时长统计(end)#####################################
+
   //Hbase加载列 - 车辆位置数据
   def vehiclePosition_sparksql_schema = conf.getString("vehiclePosition.sparksql_table_schema")
   def vehiclePosition_hbase_schema = conf.getString("vehiclePosition.hbase_table_schema")
@@ -52,6 +68,9 @@ class GlobalConfigUtils {
   def AlarmDataInformation_sparksql_schema = conf.getString("AlarmDataInformation.sparksql_table_schema")
   def AlarmDataInformation_hbase_schema = conf.getString("AlarmDataInformation.hbase_table_schema")
   def tableAlarmDataInformation = conf.getString("table.name.AlarmDataInformation")
+
+
+
   //HDFS的namenode地址
   def hdfs = conf.getString("hdfs.host")
 

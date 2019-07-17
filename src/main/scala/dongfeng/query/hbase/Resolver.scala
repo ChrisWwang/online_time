@@ -188,10 +188,6 @@ case class HBaseRelation(@transient val hbaseProps: Map[String,String])(@transie
 
   // By making this a lazy val we keep the RDD around, amortizing the cost of locating splits.
   lazy val buildScan = {
-
-
-
-
     val hbaseConf = HBaseConfiguration.create()
     hbaseConf.set("hbase.zookeeper.quorum", GlobalConfigUtils.hbaseQuorem)
     hbaseConf.set(TableInputFormat.INPUT_TABLE, hbaseTableName)
