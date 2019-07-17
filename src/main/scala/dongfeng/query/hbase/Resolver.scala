@@ -91,8 +91,8 @@ case class HBaseRelation(@transient val hbaseProps: Map[String,String])(@transie
   val hbaseTableName =  hbaseProps.getOrElse("hbase_table_name", sys.error("not valid schema"))
   val hbaseTableSchema =  hbaseProps.getOrElse("hbase_table_schema", sys.error("not valid schema"))
   val registerTableSchema = hbaseProps.getOrElse("sparksql_table_schema", sys.error("not valid schema"))
-  val begin_time = hbaseProps.getOrElse("begin_time", sys.error("not valid schema"))
-  val end_time = hbaseProps.getOrElse("end_time", sys.error("not valid schema"))
+//  val begin_time = hbaseProps.getOrElse("begin_time", sys.error("not valid schema"))
+//  val end_time = hbaseProps.getOrElse("end_time", sys.error("not valid schema"))
   val rowRange = hbaseProps.getOrElse("row_range", "->")
   //get star row and end row
   val range = rowRange.split("->",-1)
@@ -204,8 +204,8 @@ case class HBaseRelation(@transient val hbaseProps: Map[String,String])(@transie
     val tableName = hbaseTableName
     var connection: Connection = null
     val scan: Scan = new Scan
-    scan.setStartRow(Bytes.toBytes("0000"+begin_time+"|"))
-    scan.setStopRow(Bytes.toBytes("0007"+end_time+"|"))
+//    scan.setStartRow(Bytes.toBytes("0000"+begin_time+"|"))
+//    scan.setStopRow(Bytes.toBytes("0007"+end_time+"|"))
     scan.setCacheBlocks(false)
     var table: Table = null
     connection = ConnectionFactory.createConnection(hbaseConf);

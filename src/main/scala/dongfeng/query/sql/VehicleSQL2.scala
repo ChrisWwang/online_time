@@ -162,11 +162,12 @@ object VehicleSQL2 {
 
 
   // driver_info连接opt_alliance_business,获取driver_id对应的数据
+  //TODO 暂时修改driver_info表字段id_ => id
   lazy val driver_info_join_opt_alliance_business =
     """
       |select
       |di.driver_type driver_type,
-      |di.id_ driver_id,
+      |di.id driver_id,
       |di.mobile driver_mobile,
       |di.driver_name driver_name,
       |di.register_city city_code,

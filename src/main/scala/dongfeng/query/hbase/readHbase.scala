@@ -114,7 +114,7 @@ object readHbase {
     )).toDF("driver_type" , "id_" , "mobile" , "driver_name" , "register_city" , "city_name" , "driver_management_id" )
 
     //显示读取到的hbase表
-    driver_info.show(100)
+//    driver_info.show(100)
 
     driver_info
   }
