@@ -115,8 +115,11 @@ object QueryController {
 
 
     //######################统计司机活动时间###################
+    sparkSession.sql(VehicleSQL2.driver_online_record_time_all).createOrReplaceTempView("driver_online_record_time_all")
+    sparkSession.sql(VehicleSQL2.driver_online_record_time_filter).createOrReplaceTempView("driver_online_record_time_filter")
     sparkSession.sql(VehicleSQL2.driver_online_record_time_rank).createOrReplaceTempView("driver_online_record_time_rank")
     sparkSession.sql(VehicleSQL2.driver_online_record_time_rank_desc).createOrReplaceTempView("driver_online_record_time_rank_desc")
+    //----------------------------------------------------------------------------------
     sparkSession.sql(VehicleSQL2.driver_online_record_sameday).createOrReplaceTempView("driver_online_record_sameday")
     sparkSession.sql(VehicleSQL2.driver_online_record_yesterday).createOrReplaceTempView("driver_online_record_yesterday")
     sparkSession.sql(VehicleSQL2.driver_online_record_nextday).createOrReplaceTempView("driver_online_record_nextday")

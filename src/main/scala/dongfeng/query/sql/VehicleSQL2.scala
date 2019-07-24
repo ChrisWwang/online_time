@@ -2,24 +2,60 @@ package dongfeng.query.sql
 
 object VehicleSQL2 {
 
-  // 获取mongoDB前一天的数据,使用driverID分组,排序分组内的时间
-  lazy val driver_online_record_time_rank =
+  // 获取mongoDB前一天的数据
+  lazy val driver_online_record_time_all =
     """
       |select
-      |driver_id ,
-      |createTime,
-      |time,
-      |state,
-      |row_number() over(partition by driver_id order by time) as rank
-      |from (
-      |select
       |driverID as driver_id,
-      |createTime,
       |unix_timestamp(createTime) as time ,
       |state
       |from
       |driver_online_record
       |where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(createTime)) = 1
+    """.stripMargin
+
+
+  // 筛选要过滤掉的重复时间数据
+  lazy val driver_online_record_time_filter =
+    """
+      |select
+      |driver_id,
+      |time
+      |from (
+      |select
+      |driver_id ,
+      |time,
+      |count(1) count
+      |from
+      |driver_online_record_time_all
+      |group by driver_id,time
+      |)
+      |where count > 1
+    """.stripMargin
+
+  // 获取mongoDB前一天的数据,使用driverID分组,排序分组内的时间
+  lazy val driver_online_record_time_rank =
+    """
+      |select
+      |driver_id,
+      |time,
+      |state,
+      |row_number() over(partition by driver_id order by time) as rank
+      |from (
+      |select
+      |t1.driver_id driver_id,
+      |t1.time time,
+      |t1.state state
+      |from
+      |driver_online_record_time_all t1
+      |left join
+      |driver_online_record_time_filter t2
+      |on t1.driver_id = t2.driver_id
+      |and t1.time = t2.time
+      |where
+      |t2.driver_id is null
+      |and
+      |t2.time is null
       |) tb
     """.stripMargin
 
@@ -35,6 +71,9 @@ object VehicleSQL2 {
       |from
       |driver_online_record_time_rank
     """.stripMargin
+
+
+  //-----------------------------------------------------------------------------------------------------
 
 
   // 将排序表自连接，连接条件t1.driver_id = t2.driver_id and t1.rank + 1 = t2.rank and t1.state - 1 = t2.state,用t2.time-t1.time得到online_time
