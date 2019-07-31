@@ -22,8 +22,8 @@ object ReadMongoDB {
 
     df.createOrReplaceTempView("user")
 
-    val resDf:DataFrame = sparksession.sql("select  driverId, createTime, state from user")
-    resDf.show()
+//    val resDf:DataFrame = sparksession.sql("select  driverId, createTime, state from user")
+//    resDf.show()
 
     sparksession.stop()
     System.exit(0)

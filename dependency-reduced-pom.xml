@@ -79,11 +79,31 @@
   </build>
   <profiles>
     <profile>
+      <id>pro</id>
+      <build>
+        <resources>
+          <resource>
+            <directory>C:\Users\EDZ\Desktop\online_time\src\main\resources\pro</directory>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+    <profile>
       <id>test</id>
       <build>
         <resources>
           <resource>
-            <directory>D:\daima\work\715\online_time\src\main\resources\test</directory>
+            <directory>src/main/resources/test</directory>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+    <profile>
+      <id>pre</id>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources/pre</directory>
           </resource>
         </resources>
       </build>

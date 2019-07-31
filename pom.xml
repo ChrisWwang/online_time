@@ -172,25 +172,25 @@
         <!--</profile>-->
 
         <!--开发环境-->
-        <!--<profile>-->
-            <!--<id>pro</id>-->
-            <!--<activation>-->
-                <!--<activeByDefault>true</activeByDefault>-->
-                <!--<property>-->
-                    <!--<name>pro</name>-->
-                    <!--<value>Pro</value>-->
-                <!--</property>-->
-            <!--</activation>-->
-            <!--<build>-->
-                <!--<resources>-->
-                    <!--<resource>-->
-                        <!--<directory>src/main/resources/pro</directory>-->
-                    <!--</resource>-->
-                <!--</resources>-->
-            <!--</build>-->
-        <!--</profile>-->
+        <profile>
+            <id>pro</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>pro</name>
+                    <value>Pro</value>
+                </property>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/pro</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
 
-        <!--生产环境-->
+        <!--测试环境-->
         <profile>
             <id>test</id>
             <activation>
@@ -204,6 +204,25 @@
                 <resources>
                     <resource>
                         <directory>src/main/resources/test</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+
+        <!--预发布环境-->
+        <profile>
+            <id>pre</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>pre</name>
+                    <value>pre</value>
+                </property>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/pre</directory>
                     </resource>
                 </resources>
             </build>
