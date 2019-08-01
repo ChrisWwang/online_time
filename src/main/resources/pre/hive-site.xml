@@ -4,7 +4,7 @@
 <configuration>
   <property>
     <name>hive.metastore.uris</name>
-    <value>thrift://df2:9083</value>
+    <value>thrift://dfmap2:9083</value>
   </property>
   <property>
     <name>hive.metastore.client.socket.timeout</name>
@@ -140,7 +140,7 @@
   </property>
   <property>
     <name>spark.executor.memory</name>
-    <value>2738041651</value>
+    <value>912680550</value>
   </property>
   <property>
     <name>spark.driver.memory</name>
@@ -156,7 +156,7 @@
   </property>
   <property>
     <name>spark.yarn.executor.memoryOverhead</name>
-    <value>460</value>
+    <value>153</value>
   </property>
   <property>
     <name>spark.dynamicAllocation.enabled</name>
@@ -184,7 +184,7 @@
   </property>
   <property>
     <name>hive.zookeeper.quorum</name>
-    <value>df1,df3,df2</value>
+    <value>dfmap2,dfmap3,dfmap1</value>
   </property>
   <property>
     <name>hive.zookeeper.client.port</name>
@@ -193,6 +193,14 @@
   <property>
     <name>hive.zookeeper.namespace</name>
     <value>hive_zookeeper_namespace_hive</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.quorum</name>
+    <value>dfmap2,dfmap3,dfmap1</value>
+  </property>
+  <property>
+    <name>hbase.zookeeper.property.clientPort</name>
+    <value>2181</value>
   </property>
   <property>
     <name>hive.cluster.delegation.token.store.class</name>

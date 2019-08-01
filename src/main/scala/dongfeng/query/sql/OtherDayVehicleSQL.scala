@@ -1,27 +1,124 @@
 package dongfeng.query.sql
 
-object VehicleSQL2 {
+object OtherDayVehicleSQL {
 
   // 获取mongoDB前一天的数据,使用driverID分组,排序分组内的时间
+  lazy val driver_online_record_time_original =
+    """
+      |select
+      |driverID as driver_id,
+      |unix_timestamp(createTime) as time ,
+      |state
+      |from
+      |driver_online_record
+      |where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(createTime)) = 2
+    """.stripMargin
+  //where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(createTime)) = 1
+
+
+  //
+  lazy val driver_online_record_time_state_0 =
+    """
+      |select
+      |driver_id,
+      |time,
+      |state
+      |from (
+      |select
+      |driver_id,
+      |time,
+      |state,
+      |row_number() over(partition by driver_id,time order by time) as rank
+      |from
+      |driver_online_record_time_original
+      |where
+      |state = '0'
+      |)
+      |where
+      |rank = '1'
+    """.stripMargin
+
+
+  //
+  lazy val driver_online_record_time_state_1 =
+    """
+      |select
+      |driver_id,
+      |time,
+      |state
+      |from
+      |driver_online_record_time_original
+      |where
+      |state = '1'
+    """.stripMargin
+
+
+  //
+  lazy val driver_online_record_time_all =
+    """
+      |select
+      |*
+      |from
+      |driver_online_record_time_state_0
+      |union all
+      |select
+      |*
+      |from
+      |driver_online_record_time_state_1
+    """.stripMargin
+
+
+  // 获取mongoDB前一天的数据,使用driverID分组,排序分组内的时间
+  lazy val driver_online_record_time_filter =
+    """
+      |select
+      |driver_id,
+      |time
+      |from (
+      |select
+      |driver_id ,
+      |time,
+      |count(1) count
+      |from
+      |driver_online_record_time_all
+      |group by driver_id,time
+      |)
+      |where count > 1
+    """.stripMargin
+
+
+
+  //###################################################################33
+  //###################################################################33
+  //
   lazy val driver_online_record_time_rank =
     """
       |select
-      |driver_id ,
-      |createTime,
+      |driver_id,
       |time,
       |state,
       |row_number() over(partition by driver_id order by time) as rank
       |from (
       |select
-      |driverID as driver_id,
-      |createTime,
-      |unix_timestamp(createTime) as time ,
-      |state
+      |t1.driver_id driver_id,
+      |t1.time time,
+      |t1.state state
       |from
-      |driver_online_record
-      |where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(createTime)) = 1
+      |driver_online_record_time_all t1
+      |left join
+      |driver_online_record_time_filter t2
+      |on t1.driver_id = t2.driver_id
+      |and t1.time = t2.time
+      |where
+      |t2.driver_id is null
+      |and
+      |t2.time is null
       |) tb
     """.stripMargin
+  //where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(createTime)) = 1
+
+
+
 
 
   // 倒排分组内的时间
@@ -58,7 +155,7 @@ object VehicleSQL2 {
     """
       |select
       |driver_id ,
-      |time - UNIX_TIMESTAMP(date_sub(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),1),'yyyy-MM-dd') as online_time
+      |time - UNIX_TIMESTAMP(date_sub(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),2),'yyyy-MM-dd') as online_time
       |from
       |driver_online_record_time_rank
       |where rank = 1
@@ -71,7 +168,7 @@ object VehicleSQL2 {
     """
       |select
       |driver_id ,
-      |UNIX_TIMESTAMP(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),'yyyy-MM-dd') - time as online_time
+      |UNIX_TIMESTAMP(date_sub(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),1),'yyyy-MM-dd') - time as online_time
       |from
       |driver_online_record_time_rank_desc
       |where rank = 1
@@ -86,8 +183,8 @@ object VehicleSQL2 {
       |UNIX_TIMESTAMP(close_gps_time) - UNIX_TIMESTAMP(create_time) as online_time
       |from
       |order_info
-      |where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(close_gps_time)) = 1
-      |and DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(create_time)) = 1
+      |where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(close_gps_time)) = 2
+      |and DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(create_time)) = 2
     """.stripMargin
   // where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(close_gps_time)) = 1
   // and DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(create_time)) = 1
@@ -98,11 +195,11 @@ object VehicleSQL2 {
     """
       |select
       |driver_id,
-      |UNIX_TIMESTAMP(close_gps_time) - UNIX_TIMESTAMP(date_sub(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),1),'yyyy-MM-dd') as online_time
+      |UNIX_TIMESTAMP(close_gps_time) - UNIX_TIMESTAMP(date_sub(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),2),'yyyy-MM-dd') as online_time
       |from
       |order_info
-      |where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(close_gps_time)) = 1
-      |and DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(create_time)) = 2
+      |where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(close_gps_time)) = 2
+      |and DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(create_time)) = 3
     """.stripMargin
 
   // where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(close_gps_time)) = 1
@@ -114,16 +211,15 @@ object VehicleSQL2 {
     """
       |select
       |driver_id,
-      |UNIX_TIMESTAMP(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),'yyyy-MM-dd') - UNIX_TIMESTAMP(create_time) as online_time
+      |UNIX_TIMESTAMP(date_sub(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),1),'yyyy-MM-dd') - UNIX_TIMESTAMP(create_time) as online_time
       |from
       |order_info
-      |where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(close_gps_time)) = 0
-      |and DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(create_time)) = 1
+      |where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(close_gps_time)) = 1
+      |and DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(create_time)) = 2
     """.stripMargin
 
   // where DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(close_gps_time)) = 0
   // and DATEDIFF(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),TO_DATE(create_time)) = 1
-
 
 
   // 将六个表数据聚合
@@ -162,12 +258,13 @@ object VehicleSQL2 {
 
 
   // driver_info连接opt_alliance_business,获取driver_id对应的数据
-  //TODO 暂时修改driver_info表字段id_ => id
+  //TODO 如果是读mysql数据库，则需要把di.id  修改为  di.id_
+  //TODO 如果是读hbase数据库，则需要把di.id_  修改为 di.id
   lazy val driver_info_join_opt_alliance_business =
     """
       |select
       |di.driver_type driver_type,
-      |di.id driver_id,
+      |di.id_ driver_id,
       |di.mobile driver_mobile,
       |di.driver_name driver_name,
       |di.register_city city_code,
@@ -204,7 +301,6 @@ object VehicleSQL2 {
   // 正式上线时换成order_info_oneday
 
 
-
   // 以所有类别都作为分组条件，聚合online_time
   lazy val order_info_oneday_group1 =
     """
@@ -217,7 +313,7 @@ object VehicleSQL2 {
       |city_name,
       |driver_company_id,
       |driver_company_name,
-      |date_sub(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),1) online_date,
+      |date_sub(from_unixtime(unix_timestamp(),'yyyy-MM-dd'),2) online_date,
       |round((sum(online_time)/3600),1) online_time,
       |from_unixtime(unix_timestamp()) create_time
       |from
@@ -225,5 +321,6 @@ object VehicleSQL2 {
       |where driver_id is not null
       |group by driver_id,driver_name,driver_mobile,driver_type,city_code,city_name,driver_company_id,driver_company_name
     """.stripMargin
+
 
 }

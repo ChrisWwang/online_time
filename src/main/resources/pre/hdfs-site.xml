@@ -8,11 +8,11 @@
   </property>
   <property>
     <name>dfs.namenode.servicerpc-address</name>
-    <value>df1:8022</value>
+    <value>dfmap1:8022</value>
   </property>
   <property>
     <name>dfs.https.address</name>
-    <value>df1:50470</value>
+    <value>dfmap1:50470</value>
   </property>
   <property>
     <name>dfs.https.port</name>
@@ -20,7 +20,7 @@
   </property>
   <property>
     <name>dfs.namenode.http-address</name>
-    <value>df1:50070</value>
+    <value>dfmap1:50070</value>
   </property>
   <property>
     <name>dfs.replication</name>
